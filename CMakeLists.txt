@@ -5,26 +5,27 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-# Find dependencies
+# 1. Find Dependencies (Added std_msgs here)
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(std_msgs REQUIRED)
 
-# Build Talker
+# 2. Build Talker (Linked std_msgs here)
 add_executable(talker src/talker.cpp)
-ament_target_dependencies(talker rclcpp)
+ament_target_dependencies(talker rclcpp std_msgs)
 
-# Build Listener
+# 3. Build Listener (Linked std_msgs here)
 add_executable(listener src/listener.cpp)
-ament_target_dependencies(listener rclcpp)
+ament_target_dependencies(listener rclcpp std_msgs)
 
-# Install Executables
+# 4. Install Executables
 install(TARGETS
   talker
   listener
   DESTINATION lib/${PROJECT_NAME}
 )
 
-# CRITICAL STEP: Install the launch files
+# 5. Install Launch Directory
 install(DIRECTORY launch
   DESTINATION share/${PROJECT_NAME}
 )
